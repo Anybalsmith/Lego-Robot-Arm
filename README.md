@@ -26,7 +26,7 @@ La coordonnée articulaire évidente est bien évidement $q_1 = \alpha$
 
 ## Algorithm
 
-```scss
+```python
 
 # Arm Length
 ARM_LENGTH1 = a1

@@ -22,7 +22,7 @@ Le MGI peut être déterminé en exploitant la figure suivante :
 
 <span style="color:gray"><small>*source: Cours de Robotique Jacques Gangloff - Telecom Physique Strasbourg*</small></span>
 
-La coordonnée articulaire évidente est bien évidement $q_1 = \alpha$
+La coordonnée articulaire évidente est bien évidement $q_1 = \alpha$, ou $q_1 = arctan2 (o_y,o_x)$ si l'on ne dispose pas du paramètre $\alpha$.
 
 ## Algorithm
 

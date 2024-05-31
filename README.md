@@ -18,7 +18,7 @@ Le MGI peut être déterminé en exploitant la figure suivante :
 
 | MGI | MGI |
 |:------------------:|:------------------:|
-| ![Description de l'image 1](mgi_1.png){ width=50% } | ![Description de l'image 2](mgi_2.png){ width=50% } |
+| ![Description de l'image 1](mgi_1.png) | ![Description de l'image 2](mgi_2.png) |
 
 <span style="color:gray"><small>*source: Cours de Robotique Jacques Gangloff - Telecom Physique Strasbourg*</small></span>
 

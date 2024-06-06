@@ -58,10 +58,12 @@ while True:
 
     # Wenn der Knopf gedrückt wird, startet die Drehung
     if Button.LEFT in ev3.buttons.pressed():
-        current_motor.run(360)  
+        current_motor.run(360)
+        print(current_motor.angle())  
 
     elif Button.RIGHT in ev3.buttons.pressed():
-        current_motor.run(-360)  
+        current_motor.run(-360)
+        print(current_motor.angle())  
 
     else:
         # Wenn keine der Tasten gedrückt wird, stoppt der Motor

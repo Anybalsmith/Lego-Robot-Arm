@@ -1,22 +1,23 @@
 import math
 def ikine(x, y, z):
     # Longueurs des bras du robot (à adapter selon le robot)
-    l1 = 1.0
-    l2 = 1.0
-    l3 = 1.0
+    a1 = 0.06
+    d1 = 0.105
+    a2 = 0.155
+    d4 = 0.085
     
     # Calcul de l'angle q1
     q1 = math.atan2(y, x)
     
     # Calcul de l'angle q3
-    D = ((z-l1)**2 + x**2 + y**2 - l2**2 - l3**2) / (2*l2*l3)
+    D = ((z-d1)**2 + (math.sqrt(x**2-y**2)-a1)**2-a2**2-d4**2) / (2*a2*d4)
     if abs(D) <= 1:
         q3 = math.asin(D)
     else:
         q3 = 0
     # Calcul de l'angle q2
-    k1 = l2 + l3*math.sin(q3)
-    k2 = l3*math.cos(q3)
-    q2 = math.atan2(k1(z-l1) - k2(math.sqrt(x**2 + y**2)), k2(z-l1) + k1(math.sqrt(x**2 + y**2)))     
+    k1 = a2 + d4*math.sin(q3)
+    k2 = d4*math.cos(q3)
+    q2 = math.atan2(k1*(z-d1) - k2*(math.sqrt(x**2 + y**2)-a1), k2*(z-d1) + k1*(math.sqrt(x**2 + y**2)-a1))     
     
     return q1, q2, q3

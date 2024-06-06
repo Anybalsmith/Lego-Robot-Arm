@@ -16,7 +16,7 @@ The MGI can be determined using the following figure:
 
 
 
-| MGI | MGI |
+| Inverse Kinematics | model |
 |:------------------:|:------------------:|
 | ![Description de l'image 1](mgi_1.png) | ![Description de l'image 2](mgi_2.png) |
 

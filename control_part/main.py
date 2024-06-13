@@ -60,10 +60,8 @@ def to_degrees(q1, q2, q3):
 
 # Fonction pour déplacer le bras à une position donnée (x, y, z)
 def move_to(x, y, z):
-    global current_q1, current_q2, current_q3
     try:
         # Calcul des angles à partir des coordonnées (x, y, z)
-
         q1, q2, q3 = ikine(x, y, z)
 
         # Convertir les angles en degrés
@@ -82,6 +80,7 @@ def move_to(x, y, z):
         #print(f'Moved to ({x}, {y}, {z}): q1={q1_deg}, q2={q2_deg}, q3={q3_deg}')
     except ValueError as e:
         print("Position impossible à atteindre:", e)
+    return q1_deg, q2_deg, q3_deg
 
 # Initialisation du robot
 def initialize_robot():
@@ -91,13 +90,9 @@ def initialize_robot():
     motor_arm_1.reset_angle(0)
     motor_arm_2.reset_angle(0)
     motor_gripper.reset_angle(0)
-    Z1_b1 = 12
-    Z2_b1 = 36
-    Z3_b1 = 12
-    Z4_b1 = 36
+    
     # Déplacer le robot à sa position initiale
     q1_deg, q2_deg, q3_deg = to_degrees(initial_q1, initial_q2, initial_q3)
-    
     motor_platform.run_target(200, q1_deg, then=Stop.HOLD, wait=False)
     motor_arm_1.run_target(200, q2_deg, then=Stop.HOLD, wait=False)
     motor_arm_2.run_target(200, q3_deg, then=Stop.HOLD, wait=True)
@@ -115,16 +110,43 @@ print('Calibration...')
 print(motor_platform.angle())
 print(motor_arm_1.angle())
 print(motor_arm_2.angle())
-time.sleep(3)
-initialize_robot()
+time.sleep(2)
+#initialize_robot()
 
 
 # Exemple d'utilisation : Déplacer le robot à plusieurs positions successives
-# move_to(0, 0, 0)
-# print("mvt 1 done")
-# time.sleep(5)
-# move_to(100, 100, 100)
+move_to(0, 0, -0.001)
+print("mvt 1 done")
+time.sleep(5)
+
+
+
+
+
+
+
+
+
+
+# q1, q2, q3 = ikine(0.12, 0.12, -0.05)
+# print('ikine',q1, q2, q3)
+# q1_deg, q2_deg, q3_deg = to_degrees(q1, q2, q3)
+# print(q1_deg, q2_deg, q3_deg)
+# Z1_b2 = 12
+# Z2_b2 = 20
+# Z3_b2 = 12
+# Z4_b2 = 36
+# motor_arm_2.run_target(200, 45*Z2_b2*Z4_b2/(Z1_b2*Z3_b2), then=Stop.HOLD, wait=False)
+# Z1_b1 = 12
+# Z2_b1 = 36
+# Z3_b1 = 12
+# Z4_b1 = 36
+# motor_arm_1.run_target(200, 45*Z2_b1*Z4_b1/(Z1_b1*Z3_b1), then=Stop.HOLD, wait=False)
+#motor_arm_1.run_target(200, q2_deg, then=Stop.HOLD, wait=False)
+#motor_arm_2.run_target(200, q3_deg, then=Stop.HOLD, wait=True)  # wait=True to ensure arm 2 movement completes before next action
+# q1_deg, q2_deg, q3_deg = move_to(0.12, 0.12, -0.05)
 # print("mvt 2 done")
+# print(q1_deg, q2_deg, q3_deg)
 # time.sleep(5)
 # move_to(50, 150, 100)
 # print("mvt 3 done")

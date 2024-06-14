@@ -115,7 +115,7 @@ time.sleep(2)
 
 
 # Exemple d'utilisation : Déplacer le robot à plusieurs positions successives
-move_to(0, 0, -0.001)
+move_to(0, 0, 0.001)
 print("mvt 1 done")
 time.sleep(5)
 

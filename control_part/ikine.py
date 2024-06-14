@@ -9,15 +9,23 @@ def ikine(x, y, z):
     # Calcul de l'angle q1
     q1 = math.atan2(y, x)
     
-    # Calcul de l'angle q3
-    D = ((z-d1)**2 + (math.sqrt(x**2+y**2)-a1)**2-a2**2-d4**2) / (2*a2*d4)
     try:
+        # Calcul de l'angle q3
+        D = ((z - d1)**2 + (math.sqrt(x**2 + y**2) - a1)**2 - a2**2 - d4**2) / (2 * a2 * d4)
+        if abs(D) > 1:
+            raise ValueError("La position n'est pas atteignable")
+
         q3 = math.asin(D)
+        
         # Calcul de l'angle q2
-        k1 = a2 + d4*math.sin(q3)
-        k2 = d4*math.cos(q3)
-        q2 = math.atan2(k1*(z-d1) - k2*(math.sqrt(x**2 + y**2)-a1), k2*(z-d1) + k1*(math.sqrt(x**2 + y**2)-a1))
-    except:
-        print("impossible to reach position")
-    
-    return q1, q2, q3
+        k1 = a2 + d4 * math.sin(q3)
+        k2 = d4 * math.cos(q3)
+        q2 = math.atan2(
+            k1 * (z - d1) - k2 * (math.sqrt(x**2 + y**2) - a1),
+            k2 * (z - d1) + k1 * (math.sqrt(x**2 + y**2) - a1)
+        )
+
+        return q1, q2, q3
+    except ValueError as e:
+        print(e)
+        return None

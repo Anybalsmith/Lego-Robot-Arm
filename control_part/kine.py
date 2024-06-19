@@ -17,9 +17,9 @@ def kine(q1, q2, q3):
     a3, alpha3, d3 = 0, np.pi/2, 0
     
     # Compute individual transformation matrices
-    T1 = dh_matrix(a1, alpha1, d1, theta1)
-    T2 = dh_matrix(a2, alpha2, d2, theta2)
-    T3 = dh_matrix(a3, alpha3, d3, theta3)
+    T1 = dh_matrix(a1, alpha1, d1, q1)
+    T2 = dh_matrix(a2, alpha2, d2, q2)
+    T3 = dh_matrix(a3, alpha3, d3, q3)
     
     # Compute the overall transformation matrix
     T = np.matmul(np.matmul(T1, T2), T3)
@@ -27,7 +27,7 @@ def kine(q1, q2, q3):
     # Extract the position (x, y, z) from the transformation matrix
     x, y, z = T[0, 3], T[1, 3], T[2, 3]
     
-    return x, y, z
+    return x, y, z, T
 
 # Example usage
 #theta1 = np.radians(0)  

@@ -2,6 +2,7 @@
 
 import math
 import time
+import random 
 from ikine import ikine
 # from grab import grab
 from pybricks.hubs import EV3Brick
@@ -114,21 +115,79 @@ time.sleep(2)
 #initialize_robot()
 
 
+# Define the positions in a dictionary
+positions = {
+    1: [309, 12, -170, 702],
+    2: [-379, -19, -170, 702],
+    3: [-1437, -37, 69, 702],
+    4: [-2415, 27, -188, 702],
+    5: [-3347, 23, 164, 702]
+}
+
+def move_to_position(position):
+    # move to one of the specific position
+    motor_platform.run_target(400, position[0], then=Stop.HOLD, wait=True)
+    motor_arm_2.run_target(400, position[2], then=Stop.HOLD, wait=True)
+    motor_arm_1.run_target(400, position[1], then=Stop.HOLD, wait=True)
+    motor_gripper.run_target(400, position[3], then=Stop.HOLD, wait=True)
+
+def reset_pose():
+    # go to initial position
+    motor_platform.run_target(400, 0, then=Stop.HOLD, wait=True)
+    motor_arm_1.run_target(400, 0, then=Stop.HOLD, wait=True)
+    motor_arm_2.run_target(400, 0, then=Stop.HOLD, wait=True)
+    motor_gripper.run_target(400,0, then=Stop.HOLD, wait=True)
+
+def initialisation_arm():
+    motor_platform.run_target(400, 0, then=Stop.HOLD, wait=True)
+    motor_arm_1.run_target(400, -137, then=Stop.HOLD, wait=True)
+    motor_arm_2.run_target(400, 0, then=Stop.HOLD, wait=True)
+    motor_gripper.run_target(400,1000, then=Stop.HOLD, wait=True)
+
+def pick():
+    # pick
+    motor_gripper.run_target(400,350, then=Stop.HOLD, wait=True)
+    time.sleep(2)
+    motor_arm_1.run_target(400, -137, then=Stop.HOLD, wait=True)
+    time.sleep(2)
+
+def place():
+    motor_arm_1.run_target(400, -350, then=Stop.HOLD, wait=True)
+    motor_platform.run_target(400,-2261, then=Stop.HOLD, wait=True)
+    
+    motor_arm_2.run_target(400,-197, then=Stop.HOLD, wait=True)
+    motor_gripper.run_target(400,702, then=Stop.HOLD, wait=True)
+    time.sleep(2)
+# initialisation
+initialisation_arm()
+
+move_to_position(positions[3])
+
+# pick
+pick()
+# place
+place()
+
+# go back to initial position
+reset_pose()
+
+
+# Choose a random position
+# selected_position_key = random.choice(list(positions.keys()))
+# selected_position = positions[selected_position_key]
+
+# ev3.screen.print('Selected Position: ',selected_position_key)
+# print('Selected Position: ',selected_position_key)
+# Move to the selected position
+
 # Exemple d'utilisation : Déplacer le robot à plusieurs positions successives
-move_to(0, 0, 0.001)
-print("mvt 1 done")
-time.sleep(5)
+# move_to(0, 0, -0.0001)
+# print("mvt 1 done")
+# time.sleep(5)
 
 
 
-
-
-
-
-
-
-
-# q1, q2, q3 = ikine(0.12, 0.12, -0.05)
+#q1, q2, q3 = ikine(0.12, 0.12, -0.05)
 # print('ikine',q1, q2, q3)
 # q1_deg, q2_deg, q3_deg = to_degrees(q1, q2, q3)
 # print(q1_deg, q2_deg, q3_deg)

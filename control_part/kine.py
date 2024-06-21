@@ -27,7 +27,7 @@ def kine(q1, q2, q3):
     # Extract the position (x, y, z) from the transformation matrix
     x, y, z = T[0, 3], T[1, 3], T[2, 3]
     
-    return x, y, z
+    return x, y, z, T
 
 # Example usage
 #q1 = np.radians(0)  

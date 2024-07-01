@@ -140,7 +140,7 @@ def reset_pose():
 
 def initialisation_arm():
     motor_platform.run_target(400, 0, then=Stop.HOLD, wait=True)
-    motor_arm_1.run_target(400, -137, then=Stop.HOLD, wait=True)
+    motor_arm_1.run_target(400, -250, then=Stop.HOLD, wait=True)
     motor_arm_2.run_target(400, 0, then=Stop.HOLD, wait=True)
     motor_gripper.run_target(400,1000, then=Stop.HOLD, wait=True)
 
@@ -155,22 +155,28 @@ def place():
     motor_arm_1.run_target(400, -350, then=Stop.HOLD, wait=True)
     motor_platform.run_target(400,-2261, then=Stop.HOLD, wait=True)
     
-    motor_arm_2.run_target(400,-197, then=Stop.HOLD, wait=True)
+    motor_arm_2.run_target(400,-250, then=Stop.HOLD, wait=True)
     motor_gripper.run_target(400,702, then=Stop.HOLD, wait=True)
     time.sleep(2)
 # initialisation
+print('initialisation')
 initialisation_arm()
-
+print('initialisation done')
+print('move to position')
 move_to_position(positions[3])
-
+print('move to position done')
+print('pick')
 # pick
 pick()
+print('pick done')
 # place
+print('place')
 place()
-
+print('place done')
 # go back to initial position
+print('reset')
 reset_pose()
-
+print('reset done')
 
 # Choose a random position
 # selected_position_key = random.choice(list(positions.keys()))

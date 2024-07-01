@@ -1,19 +1,22 @@
+#!/usr/bin/env pybricks-micropython
+
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import Motor
 from pybricks.parameters import Port, Stop
 from pybricks.tools import wait
 
 import sys
-
+import time
 # Create your objects here.
 ev3 = EV3Brick()
-motor_0 = Motor(Port.A)
-motor_1 = Motor(Port.B)
-motor_2 = Motor(Port.C)
-motor_3 = Motor(Port.D)
+motor_platform = Motor(Port.A)
+motor_arm_1 = Motor(Port.B)
+motor_arm_2 = Motor(Port.C)
+motor_gripper = Motor(Port.D)
 
 # Define the positions in a dictionary
 positions = {
+    0: [0, 0, 0, 0, 0],
     1: [309, 12, -170, 702],
     2: [-379, -19, -170, 702],
     3: [-1437, -37, 69, 702],
@@ -22,24 +25,55 @@ positions = {
 }
 
 def move_to_position(position):
-    motor_0.run_target(400, position[0], then=Stop.HOLD, wait=True)
-    motor_1.run_target(400, position[1], then=Stop.HOLD, wait=True)
-    motor_2.run_target(400, position[2], then=Stop.HOLD, wait=True)
-    motor_3.run_target(400, position[3], then=Stop.HOLD, wait=True)
+    motor_platform.run_target(400, position[0], then=Stop.HOLD, wait=True)
+    motor_arm_2.run_target(400, position[2], then=Stop.HOLD, wait=True)
+    motor_arm_1.run_target(400, position[1], then=Stop.HOLD, wait=True)
+    motor_gripper.run_target(400, position[3], then=Stop.HOLD, wait=True)
 
+def initialisation_arm():
+    motor_platform.run_target(400, 0, then=Stop.HOLD, wait=True)
+    motor_arm_1.run_target(400, -250, then=Stop.HOLD, wait=True)
+    motor_arm_2.run_target(400, 0, then=Stop.HOLD, wait=True)
+    motor_gripper.run_target(400,1000, then=Stop.HOLD, wait=True)
+
+def pick(position):
+    move_to_position(positions[position])
+    # pick
+    motor_gripper.run_target(400,350, then=Stop.HOLD, wait=True)
+    time.sleep(2)
+    motor_arm_1.run_target(400, -137, then=Stop.HOLD, wait=True)
+    time.sleep(2)
+
+def place(position):
+    motor_arm_1.run_target(400, -350, then=Stop.HOLD, wait=True)
+    # Move to the place position 
+    motor_platform.run_target(400, positions[position][0], then=Stop.HOLD, wait=True)
+    motor_arm_2.run_target(400, -250, then=Stop.HOLD, wait=True)
+    # Place action
+    motor_gripper.run_target(400, 702, then=Stop.HOLD, wait=True)
+    time.sleep(2)
+
+def reset_pose():
+    # go to initial position
+    motor_platform.run_target(400, 0, then=Stop.HOLD, wait=True)
+    motor_arm_1.run_target(400, 0, then=Stop.HOLD, wait=True)
+    motor_arm_2.run_target(400, 0, then=Stop.HOLD, wait=True)
+    motor_gripper.run_target(400,0, then=Stop.HOLD, wait=True)
 # Listen for commands from the serial port
 while True:
     command = sys.stdin.readline().strip()
-    if command.startswith("MOVE_TO_POSITION"):
+    if command.startswith("pick") and "place" in command:
         try:
-            position_key = int(command.split()[-1])
-            selected_position = positions.get(position_key)
-            if selected_position:
-                move_to_position(selected_position)
-                print(f"Moved to position {position_key}")
-            else:
-                print(f"Invalid position {position_key}")
+            parts = command.split()
+            initialisation_arm()
+            pick_position = int(parts[1])
+            place_position = int(parts[3])
+            pick(pick_position)
+            place(place_position)
+            print("Picked from position", pick_position, "and placed at position", place_position)
+            reset_pose() 
+            print("reset pose done") 
         except Exception as e:
-            print(f"Error: {e}")
+            print("Error: ",e)
     else:
-        print("Unknown command:", {command})
+        print("Unknown command:", command)

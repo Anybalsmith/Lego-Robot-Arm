@@ -30,9 +30,9 @@ def kine(q1, q2, q3):
     return x, y, z, T
 
 # Example usage
-#theta1 = np.radians(0)  
-#theta2 = np.radians(0)
-#theta3 = np.radians(0)
+#q1 = np.radians(0)  
+#q2 = np.radians(0)
+#q3 = np.radians(0)
 
-#x, y, z = kine(theta1, theta2, theta3)
+#x, y, z = kine(q1, q2, q3)
 #print(f"Position: x = {x}, y = {y}, z = {z}")

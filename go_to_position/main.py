@@ -9,7 +9,7 @@ import sys
 import time
 
 
-# Create your objects here.
+
 ev3 = EV3Brick()
 motor_platform = Motor(Port.A)
 motor_arm_1 = Motor(Port.B)

@@ -3,13 +3,19 @@
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import Motor
 from pybricks.parameters import Port, Stop
-from pybricks.tools import wait, DataLog
+from pybricks.tools import wait
+from pybricks.messaging import BluetoothMailboxClient, TextMailbox
 
-import sys
 import time
 
-# Create your objects here.
+
 ev3 = EV3Brick()
+client = BluetoothMailboxClient()
+mbox = TextMailbox('command', client)
+
+
+server_address = 'A5:69:94:A4:AA:01'
+
 motor_platform = Motor(Port.A)
 motor_arm_1 = Motor(Port.B)
 motor_arm_2 = Motor(Port.C)
@@ -61,25 +67,25 @@ def reset_pose():
     motor_arm_2.run_target(400, 0, then=Stop.HOLD, wait=True)
     motor_gripper.run_target(400,0, then=Stop.HOLD, wait=True)
 
-# Use Bluetooth communication to receive commands
-from pybricks.messaging import BluetoothMailboxServer, TextMailbox
-
-server = BluetoothMailboxServer()
-mbox = TextMailbox('command', server)
-
-# Adjust the Bluetooth address
-server_address = 'A5:69:94:A4:AA:01'  
-
 print('Connecting...')
-server.wait_for_connection(server_address)
+ev3.screen.clear()
+ev3.screen.print('Connecting...')
+client.connect(server_address)
 print('Connected!')
+ev3.screen.clear()
+ev3.screen.print('Connected!')
+
+mbox.send('sex')
+
 
 while True:
     command = mbox.read()
     while command is None:
         print("Waiting for command...")
+        ev3.screen.clear()
+        ev3.screen.print('Waiting for command...')
         command = mbox.read()
-        time.sleep(1)  # Attendre un peu avant de vérifier à nouveau
+        time.sleep(1)  
 
     command = command.strip()
     if command.startswith("pick") and "place" in command:
@@ -92,8 +98,12 @@ while True:
             place(place_position)
             print("Picked from position", pick_position, "and placed at position", place_position)
             reset_pose()
-            print("reset pose done")
+            print("Reset pose done")
+            # Answer to the server
+            mbox.send("Operation completed")
         except Exception as e:
-            print("Error: ", e)
+            print("Error:", e)
+            mbox.send("Error:", e)
     else:
         print("Unknown command:", command)
+        mbox.send("Unknown command")

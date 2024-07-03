@@ -2,7 +2,14 @@
 
 **IT Project Management Project**
 
-The aim of the project is to carry out "pick and place" using a Lego robotic arm fitted with a gripper. This project includes a vision part which consists of detecting the objects to be moved by the camera and their coordinates. Once this has been done, the end effector of our robotic arm will have to move to the coordinates of the box, pick it up (*pick*), then move it to a given position (*place*).
+The aim of the project is to carry out "pick and place" using a Lego robotic arm fitted with a gripper. This project includes a vision part which consists of detecting the objects to be moved by the camera and their coordinates. Once this has been done, the end effector of our robotic arm will have to move to the coordinates of the box, pick it up (_pick_), then move it to a given position (_place_).
+
+## Prerequisites
+
+On the PC:
+
+- Install the [LEGO® MINDSTORMS® EV3 MicroPython
+  ](https://marketplace.visualstudio.com/items?itemName=lego-education.ev3-micropython) VS Code extension
 
 ## The vision part
 
@@ -14,15 +21,14 @@ The inverse geometric model (IGM) of the robot can be used to determine the join
 
 The MGI can be determined using the following figure:
 
-
-
-| Inverse Kinematics | model |
-|:------------------:|:------------------:|
+|           Inverse Kinematics           |                 model                  |
+| :------------------------------------: | :------------------------------------: |
 | ![Description de l'image 1](mgi_1.png) | ![Description de l'image 2](mgi_2.png) |
 
-<span style="color:gray"><small>*source: Cours de Robotique Jacques Gangloff - Telecom Physique Strasbourg*</small></span>
+<span style="color:gray"><small>_source: Cours de Robotique Jacques Gangloff - Telecom Physique Strasbourg_</small></span>
 
 The obvious joint coordinate is obviously $q_1 = \alpha$, or $q_1 = arctan2 (o_y,o_x)$ if the $\alpha$ parameter is not available.
+
 ## Algorithm
 
 ```python

@@ -7,6 +7,8 @@ from pybricks.tools import wait
 
 import sys
 import time
+
+
 # Create your objects here.
 ev3 = EV3Brick()
 motor_platform = Motor(Port.A)
@@ -46,7 +48,7 @@ def pick(position):
 
 def place(position):
     motor_arm_1.run_target(400, -350, then=Stop.HOLD, wait=True)
-    # Move to the place position 
+    # Move to the place position
     motor_platform.run_target(400, positions[position][0], then=Stop.HOLD, wait=True)
     motor_arm_2.run_target(400, -250, then=Stop.HOLD, wait=True)
     # Place action
@@ -59,6 +61,8 @@ def reset_pose():
     motor_arm_1.run_target(400, 0, then=Stop.HOLD, wait=True)
     motor_arm_2.run_target(400, 0, then=Stop.HOLD, wait=True)
     motor_gripper.run_target(400,0, then=Stop.HOLD, wait=True)
+
+
 # Listen for commands from the serial port
 while True:
     command = sys.stdin.readline().strip()
@@ -71,8 +75,8 @@ while True:
             pick(pick_position)
             place(place_position)
             print("Picked from position", pick_position, "and placed at position", place_position)
-            reset_pose() 
-            print("reset pose done") 
+            reset_pose()
+            print("reset pose done")
         except Exception as e:
             print("Error: ",e)
     else:

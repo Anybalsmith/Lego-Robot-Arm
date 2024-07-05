@@ -17,66 +17,15 @@ The camera is positioned above the stage at a fixed distance and detects the coo
 
 ## The control part
 
-The inverse geometric model (IGM) of the robot can be used to determine the joint co-ordinates $\mathbf{q} = [q_1, q_2, q_3]^T$ required for each of the robot's joints to move it to a precise position, represented by the co-ordinates (x, y, z, $\alpha$) where the crate is to be brought.
+Control part is located in go_to_position -> main.py 
+This program allow robot arm to pick a cube at a prerecorded position (between 1 and 5) and place it at a prerecorded position (between 1 and 5)
 
-The MGI can be determined using the following figure:
+robotarm_motor allow you to control manually each robot motor
 
-|           Inverse Kinematics           |                 model                  |
-| :------------------------------------: | :------------------------------------: |
-| ![Description de l'image 1](mgi_1.png) | ![Description de l'image 2](mgi_2.png) |
 
-<span style="color:gray"><small>_source: Cours de Robotique Jacques Gangloff - Telecom Physique Strasbourg_</small></span>
+## Other files
 
-The obvious joint coordinate is obviously $q_1 = \alpha$, or $q_1 = arctan2 (o_y,o_x)$ if the $\alpha$ parameter is not available.
 
-## Algorithm
-
-```python
-
-# Arm Length
-ARM_LENGTH1 = a1
-ARM_LENGTH2 = a2
-ARM_LENGTH3 = a3
-
-# Calibration
-initial_q1 = 0.0
-initial_q2 = 0.0
-initial_q3 = 0.0
-
-motor_platform.reset_angle(initial_q1)
-motor_arm_1.reset_angle(initial_q2)
-motor_arm_2.reset_angle(initial_q3)
-motor_gripper.reset_angle(0)
-
-current_q1 = initial_q1
-current_q2 = initial_q2
-current_q3 = initial_q3
-
-Function to_degrees(q1, q2, q3):
-    Return q1_deg, q2_deg, q3_deg
-
-Function MGI(x, y, z, alpha):
-    q1 = alpha
-    q2 = f(x,y,z,ARM_LENGTH1, ARM_LENGTH2)
-    q3 = f(x,y,z,ARM_LENGTH1, ARM_LENGTH2)
-    return q1, q2, q3
-
-Function move_to(x, y, alpha):
-    global current_q1, current_q2, current_q3
-    q1,q2,q3 = MGI(x,y,z,alpha)
-    q1_deg, q2_deg, q3_deg = to_degrees(q1, q2, q3)
-
-    motor_platform.move(velocity, q1_deg)
-    motor_arm_1.move(velocity, q2_deg)
-    motor_arm_2.move(velocity, q3_deg)
-
-    # Update current position
-    current_q1 = q1
-    current_q2 = q2
-    current_q3 = q3
-
-# USE CASE
-
-moto_to(20, 30, 10, 25)
-
-```
+useful code file : This file contain working or not code
+    send_command and pick_and_place_bluetooth are code to send pick and place to the robot via bluetooth, the bluetooth communication between computer and brick is not working
+    control_part contain an implementation of inverse kinematic model of the robot (Denavit-Hartenberg convention) https://drive.google.com/drive/folders/0ByaIRKZHDhW-a0dQTS00cVF0WTg?resourcekey=0-q5wPMnFpUDWotvQ-APGziQ some slides may be useful for the modelisation in chapter 2 (it's in french sorry)

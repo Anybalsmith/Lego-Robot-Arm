@@ -4,9 +4,7 @@ from pybricks.messaging import BluetoothMailboxServer, TextMailbox
 
 
 # SERVER = 'CC:78:AB:DC:A8:47'
-# Hint try SERVER = 'EV3-Robotarm' this is the name of the EV3 Brick it may why the program as it written doesn't be careful 
-# also with who is client and server
-# Computer should be client et robot arm server but it's inversed here for test purposes
+
 
 server = BluetoothMailboxServer()
 mbox = TextMailbox("command", server)
